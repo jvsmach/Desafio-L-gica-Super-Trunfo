@@ -1,4 +1,4 @@
-# 🗺️ Super Trunfo - Países
+# Super Trunfo - Países
 
 Este é um projeto em linguagem C que simula um jogo de comparação de cartas de cidades com base em atributos como população, área, PIB, pontos turísticos, densidade populacional e PIB per capita.
 
@@ -6,7 +6,7 @@ O jogo é dividido em **três níveis**: Novato, Aventureiro e Mestre — cada u
 
 ---
 
-## 🚀 Funcionalidades por Nível
+## Funcionalidades por Nível
 
 ### 🏅 Nível Novato
 - Cadastro de cartas (estado, código, cidade, população, área, PIB, pontos turísticos)
