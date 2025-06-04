@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <string.h>
+
+#define TAM 50
+
+typedef struct {
+    char estado[TAM];
+    int codigo;
+    char nome[TAM];
+    unsigned long int populacao;
+    float area;
+    float pib;
+    int pontos_turisticos;
+    float densidade_populacional;
+    float pib_per_capita;
+} Carta;
+
+// Função para calcular atributos derivados
+void calcularAtributos(Carta *c) {
+    if (c->area > 0)
+        c->densidade_populacional = c->populacao / c->area;
+    else
+        c->densidade_populacional = 0;
+
+    if (c->populacao > 0)
+        c->pib_per_capita = c->pib / c->populacao;
+    else
+        c->pib_per_capita = 0;
+}
+
+// Função para ler uma carta
+void lerCarta(Carta *carta) {
+    printf("Digite o estado: ");
+    fgets(carta->estado, TAM, stdin);
+    strtok(carta->estado, "\n");
+
+    printf("Digite o código da carta: ");
+    scanf("%d", &carta->codigo);
+    getchar();
+
+    printf("Digite o nome da cidade: ");
+    fgets(carta->nome, TAM, stdin);
+    strtok(carta->nome, "\n");
+
+    printf("Digite a população: ");
+    scanf("%lu", &carta->populacao);
+
+    printf("Digite a área (em km²): ");
+    scanf("%f", &carta->area);
+
+    printf("Digite o PIB (em bilhões): ");
+    scanf("%f", &carta->pib);
+
+    printf("Digite o número de pontos turísticos: ");
+    scanf("%d", &carta->pontos_turisticos);
+    getchar();
+
+    calcularAtributos(carta);
+}
+
+// Função para exibir os dados de uma carta
+void exibirCarta(Carta c) {
+    printf("\n--- Carta %s ---\n", c.nome);
+    printf("Estado: %s\n", c.estado);
+    printf("Código: %d\n", c.codigo);
+    printf("População: %lu\n", c.populacao);
+    printf("Área: %.2f km²\n", c.area);
+    printf("PIB: %.2f bilhões\n", c.pib);
+    printf("Pontos Turísticos: %d\n", c.pontos_turisticos);
+    printf("Densidade Populacional: %.2f hab/km²\n", c.densidade_populacional);
+    printf("PIB per capita: %.2f\n", c.pib_per_capita);
+}
+
+// Função para comparar dois atributos
+int comparar(float valor1, float valor2, int menorVence) {
+    if (valor1 == valor2) return 0;
+    return (menorVence) ? (valor1 < valor2 ? 1 : 2) : (valor1 > valor2 ? 1 : 2);
+}
+
+// Menu para escolher o atributo
+float obterAtributo(Carta c, int opcao) {
+    switch (opcao) {
+        case 1: return c.populacao;
+        case 2: return c.area;
+        case 3: return c.pib;
+        case 4: return c.pontos_turisticos;
+        case 5: return c.densidade_populacional;
+        case 6: return c.pib_per_capita;
+        default: return -1;
+    }
+}
+
+void mostrarMenu() {
+    printf("\nEscolha um atributo para comparação:\n");
+    printf("1 - População\n");
+    printf("2 - Área\n");
+    printf("3 - PIB\n");
+    printf("4 - Pontos Turísticos\n");
+    printf("5 - Densidade Populacional (menor vence)\n");
+    printf("6 - PIB per capita\n");
+}
+
+void compararCartas(Carta c1, Carta c2, int atributo1, int atributo2) {
+    int menorVence1 = (atributo1 == 5);
+    int menorVence2 = (atributo2 == 5);
+
+    float val1_c1 = obterAtributo(c1, atributo1);
+    float val1_c2 = obterAtributo(c2, atributo1);
+    int res1 = comparar(val1_c1, val1_c2, menorVence1);
+
+    if (atributo2 == 0) {
+        printf("\nResultado da comparação:\n");
+        if (res1 == 0) printf("Empate no atributo escolhido.\n");
+        else printf("Carta vencedora: %s\n", (res1 == 1) ? c1.nome : c2.nome);
+    } else {
+        float val2_c1 = obterAtributo(c1, atributo2);
+        float val2_c2 = obterAtributo(c2, atributo2);
+        int res2 = comparar(val2_c1, val2_c2, menorVence2);
+
+        int pontos_c1 = (res1 == 1) + (res2 == 1);
+        int pontos_c2 = (res1 == 2) + (res2 == 2);
+
+        printf("\nResultado da comparação dupla:\n");
+        if (pontos_c1 > pontos_c2) printf("Carta vencedora: %s\n", c1.nome);
+        else if (pontos_c2 > pontos_c1) printf("Carta vencedora: %s\n", c2.nome);
+        else printf("Empate geral.\n");
+    }
+}
+
+int main() {
+    Carta carta1, carta2;
+
+    printf("Cadastro da Carta 1:\n");
+    lerCarta(&carta1);
+
+    printf("\nCadastro da Carta 2:\n");
+    lerCarta(&carta2);
+
+    exibirCarta(carta1);
+    exibirCarta(carta2);
+
+    int opcao, opcao2;
+    do {
+        mostrarMenu();
+        printf("Escolha o primeiro atributo: ");
+        scanf("%d", &opcao);
+
+        printf("Deseja comparar outro atributo? (1-Sim / 0-Não): ");
+        scanf("%d", &opcao2);
+
+        int segundoAtributo = 0;
+        if (opcao2 == 1) {
+            mostrarMenu();
+            printf("Escolha o segundo atributo: ");
+            scanf("%d", &segundoAtributo);
+        }
+
+        compararCartas(carta1, carta2, opcao, segundoAtributo);
+
+        printf("\nDeseja fazer outra comparação? (1-Sim / 0-Não): ");
+        scanf("%d", &opcao2);
+    } while (opcao2 == 1);
+
+    printf("\nPrograma encerrado. Obrigado por jogar Super Trunfo - Países!\n");
+    return 0;
+}
