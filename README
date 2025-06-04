@@ -1,0 +1,59 @@
+# 🗺️ Super Trunfo - Países
+
+Este é um projeto em linguagem C que simula um jogo de comparação de cartas de cidades com base em atributos como população, área, PIB, pontos turísticos, densidade populacional e PIB per capita.
+
+O jogo é dividido em **três níveis**: Novato, Aventureiro e Mestre — cada um com funcionalidades progressivamente mais avançadas.
+
+---
+
+## 🚀 Funcionalidades por Nível
+
+### 🏅 Nível Novato
+- Cadastro de cartas (estado, código, cidade, população, área, PIB, pontos turísticos)
+- Cálculo de densidade populacional e PIB per capita
+- Comparação entre dois atributos com base em regras simples (maior valor vence, exceto densidade)
+
+### 🏅 Nível Aventureiro
+- Menu interativo com `switch`
+- Escolha do atributo a ser comparado
+- Comparação baseada em lógica aninhada
+
+### 🏅 Nível Mestre
+- Escolha de **dois atributos** simultaneamente para a comparação
+- Lógica de decisão com operadores ternários
+- Tratamento de empates
+- Repetição de comparações de forma dinâmica
+
+---
+
+## Como usar
+
+- Compile o programa com um compilador C, por exemplo:
+
+   bash  
+   gcc -o supertrunfo mestre_supertrunfo.c
+  
+- Execute o programa: 
+   ./supertrunfo
+   
+- Siga as instruções no terminal para cadastrar as cartas e realizar as comparações.
+
+## Atributos das Cartas
+- Cada carta contém os seguintes campos:
+
+ - Estado (string)
+ - Código (inteiro)
+ - Nome da cidade (string)
+ - População (unsigned long int)
+ - Área (float)
+ - PIB (float)
+ - Pontos turísticos (inteiro)
+ - Densidade populacional (calculado automaticamente)
+ - PIB per capita (calculado automaticamente)
+
+## Regras de Comparação
+- População, área, PIB, pontos turísticos e PIB per capita: vence o maior valor
+- Densidade populacional: vence o menor valor (cidades menos densas são consideradas melhores)
+- Comparação dupla (nível Mestre): a carta que vencer em mais atributos é a campeã. Empates são tratados.
+
+
